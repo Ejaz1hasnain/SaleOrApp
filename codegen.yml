@@ -1,5 +1,5 @@
 overwrite: true
-schema: "http://localhost:8000/graphql/"
+schema: "https://store-olfy7reo.saleor.cloud/graphql/"
 documents: "app/**/*.{graphql,gql}"
 generates:
   generated/graphql.tsx:
