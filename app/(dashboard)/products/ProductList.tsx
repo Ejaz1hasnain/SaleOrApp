@@ -71,14 +71,14 @@ const ProductList = () => {
       }
 
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {!!data && data?.products?.edges?.map(({ node: product }: any) => {
+        {!!data && data?.products?.edges?.map((product: any) => {
           let descriptionText = '';
           try {
             // Check if `product.description` is already an object or needs parsing
             const descriptionData =
-              typeof product.description === 'string'
-                ? JSON.parse(product.description)
-                : product.description;
+              typeof product.node.description === 'string'
+                ? JSON.parse(product.node.description)
+                : product.node.description;
 
             // Extract and combine the HTML text from each block
             descriptionText = descriptionData?.blocks
@@ -90,20 +90,20 @@ const ProductList = () => {
 
           return (
             <div
-              key={product.id}
+              key={product.node.id}
               className="border rounded-lg cursor-pointer shadow-lg p-4 min-h-40 bg-white hover:shadow-xl transition-shadow"
-              onClick={() => push(`/products/${product.id}`)}
+              onClick={() => push(`/products/${product.node.id}`)}
             >
               <Image
-                src={product.thumbnail.url}
-                alt={product.name}
+                src={product.node.thumbnail.url}
+                alt={product.node.name}
                 width={256}
                 height={256}
                 className="w-full"
               />
               <h3 className="text-lg font-semibold mt-2">
                 <span className="underline">
-                  {product.name}
+                  {product.node.name}
                 </span>
               </h3>
               <p
@@ -111,7 +111,7 @@ const ProductList = () => {
                 dangerouslySetInnerHTML={{ __html: descriptionText }}
               ></p>
               <span className="text-sm text-gray-500 mt-2 inline-block">
-                Category: {product.category.name}
+                Category: {product.node.category.name}
               </span>
             </div>
           );
