@@ -1,8 +1,10 @@
 import React from "react";
 import { ProductsManager } from "./ProductsManager";
 
-export const Products = async () => {
+const Products = async () => {
   return (
     <ProductsManager />
   );
 };
+
+export default Products;
