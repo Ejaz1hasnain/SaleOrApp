@@ -9,7 +9,7 @@ export const ProductDetails = ({ productDetails }: { productDetails: Product }) 
   const { name, description, category, isAvailable, thumbnail } = productDetails;
 
   // Parse the description from JSON string
-  const parsedDescription = JSON.parse(description).blocks[0].data.text;
+  const parsedDescription = typeof description === 'string' ? JSON?.parse(description)?.blocks[0]?.data?.text : description;
 
   return (
     <div className="container mx-auto p-4">
