@@ -5,9 +5,39 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+interface ProductNode {
+  id: string;
+  name: string;
+  description: string | object; // Adjust this if you have a specific structure
+  thumbnail: {
+    url: string;
+  };
+  category: {
+    name: string;
+  };
+}
+
+interface ProductEdge {
+  node: ProductNode;
+}
+
+interface PageInfo {
+  endCursor: string | null;
+  hasNextPage: boolean;
+  startCursor: string | null;
+  hasPreviousPage: boolean;
+}
+
+interface ProductsData {
+  products: {
+    edges: ProductEdge[];
+    pageInfo: PageInfo;
+  };
+}
+
 const ProductList = () => {
   const { push } = useRouter()
-  const { data, loading, fetchMore } = useQuery(GetProductListDocument, {
+  const { data, loading, fetchMore } = useQuery<ProductsData>(GetProductListDocument, {
     variables: { after: null, first: 10 }
   })
 
@@ -71,7 +101,7 @@ const ProductList = () => {
       }
 
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {!!data && data?.products?.edges?.map((product: any) => {
+        {!!data && data?.products?.edges?.map((product: ProductEdge) => {
           let descriptionText = '';
           try {
             // Check if `product.description` is already an object or needs parsing
