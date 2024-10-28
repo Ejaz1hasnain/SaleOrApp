@@ -1,18 +1,17 @@
 'use client'
-import { ModalLayout } from "@/components/ModalLayout";
 import { DeleteProductTypeDocument, GetProductListDocument, Product } from "@/generated/graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 
 const ProductList = () => {
   const { push } = useRouter()
-  const { data, loading, error, fetchMore } = useQuery(GetProductListDocument, {
+  const { data, loading, fetchMore } = useQuery(GetProductListDocument, {
     variables: { after: null, first: 10 }
   })
-  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
+  // const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+  // const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
 
   const fetchNext = () => {
     const endCursor = data?.products?.pageInfo?.endCursor;
@@ -55,7 +54,7 @@ const ProductList = () => {
 
   return (
     <React.Fragment>
-      <div className="flex flex-row gap-x-2 mb-2">
+      {data && <div className="flex flex-row gap-x-2 mb-2">
         <button
           className="border border-gray-400 bg-transparent disabled:cursor-not-allowed disabled:bg-gray-500 text-black w-full p-2 rounded-md flex-1"
           onClick={fetchPrev}
@@ -71,6 +70,7 @@ const ProductList = () => {
           {loading ? "Fetching..." : "Next"}
         </button>
       </div>
+      }
 
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {!!data && data?.products?.edges?.map(({ node: product }: any) => {
@@ -127,7 +127,7 @@ const ProductList = () => {
             </div>
           );
         })}
-        {confirmDeleteModal &&
+        {/* {confirmDeleteModal &&
           <ModalLayout
             isOpen={confirmDeleteModal}
             handleClose={() => { setConfirmDeleteModal(false) }}
@@ -135,7 +135,7 @@ const ProductList = () => {
           >
             <ConfirmDelete product={selectedProduct} handleClose={() => { setConfirmDeleteModal(false) }} />
           </ModalLayout>
-        }
+        } */}
       </div>
     </React.Fragment>
 

@@ -4,7 +4,7 @@ import { ProductDetails } from "./ProductDetails";
 import { Product, useGetProductDetailsQuery } from "@/generated/graphql";
 import { use } from 'react';
 
-const ProductPage = (props: any) => {
+const ProductPage = (props: { params: React.Usable<{ id: string; }>; }) => {
   const params = use(props?.params) as { id: string };
   const decodedId = decodeURIComponent(params.id);
 
