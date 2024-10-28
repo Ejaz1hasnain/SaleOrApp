@@ -1,10 +1,10 @@
-import DashboardPage from "./(dashboard)/page";
+import Products from "./products/page";
 
 export default function Home() {
   return (
     <div className="min-h-screen font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col ">
-        <DashboardPage />
+        <Products />
       </main>
     </div>
   );
