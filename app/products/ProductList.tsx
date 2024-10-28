@@ -1,6 +1,6 @@
 'use client'
 import { GetProductListDocument } from "@/generated/graphql";
-import { useQuery } from "@apollo/client";
+import { useSuspenseQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -8,7 +8,7 @@ import React from "react";
 interface ProductNode {
   id: string;
   name: string;
-  description: string | object; // Adjust this if you have a specific structure
+  description: string | object;
   thumbnail: {
     url: string;
   };
@@ -37,7 +37,7 @@ interface ProductsData {
 
 const ProductList = () => {
   const { push } = useRouter()
-  const { data, loading, fetchMore } = useQuery<ProductsData>(GetProductListDocument, {
+  const { data, fetchMore } = useSuspenseQuery<ProductsData>(GetProductListDocument, {
     variables: { after: null, first: 10 }
   })
 
@@ -86,16 +86,16 @@ const ProductList = () => {
         <button
           className="border border-gray-400 bg-transparent disabled:cursor-not-allowed disabled:bg-gray-500 text-black w-full p-2 rounded-md flex-1"
           onClick={fetchPrev}
-          disabled={loading || !data?.products?.pageInfo?.hasPreviousPage}
+          disabled={!data?.products?.pageInfo?.hasPreviousPage}
         >
-          {loading ? "Fetching..." : "Prev"}
+          {"Prev"}
         </button>
         <button
           onClick={fetchNext}
           className="border border-gray-400 bg-orange-400 disabled:cursor-not-allowed disabled:bg-gray-500 p-2 text-black rounded-md w-full flex-1"
-          disabled={loading || !data?.products?.pageInfo?.hasNextPage}
+          disabled={!data?.products?.pageInfo?.hasNextPage}
         >
-          {loading ? "Fetching..." : "Next"}
+          {"Next"}
         </button>
       </div>
       }

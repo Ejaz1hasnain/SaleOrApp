@@ -3,6 +3,7 @@ import React from "react";
 import { ProductDetails } from "./ProductDetails";
 import { Product, useGetProductDetailsQuery } from "@/generated/graphql";
 import { use } from 'react';
+import { Spinner } from "@/components/Spinner";
 
 const ProductPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const resolvedParams = use(params);
@@ -12,7 +13,7 @@ const ProductPage = ({ params }: { params: Promise<{ id: string }> }) => {
     variables: { id: decodedId }
   });
 
-  if (loading) return <div className="text-center justify-center">Loading...</div>;
+  if (loading) return <div className="text-center justify-center"><Spinner /></div>;
   if (error) return <div className="text-center justify-center">Error: {error.message}</div>;
 
   return data?.product ? (
