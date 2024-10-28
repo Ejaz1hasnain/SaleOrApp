@@ -93,7 +93,7 @@ const ProductList = () => {
         <button
           onClick={fetchNext}
           className="border border-gray-400 bg-orange-400 disabled:cursor-not-allowed disabled:bg-gray-500 p-2 text-black rounded-md w-full flex-1"
-          disabled={!data?.products?.pageInfo?.hasNextPage ?? true}
+          disabled={loading || !data?.products?.pageInfo?.hasNextPage}
         >
           {loading ? "Fetching..." : "Next"}
         </button>
