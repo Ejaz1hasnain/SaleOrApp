@@ -1,0 +1,63 @@
+query GetProductList($after:String, $before:String,, $first: Int, $last: Int) {
+  products(
+    first: $first
+    last: $last
+    channel: "default-channel"
+    where: { minimalPrice: { range: { gte: 0, lte: 50000 } } }
+    after:$after
+    before:$before
+  ) {
+    edges {
+      node {
+        id
+        name
+        description
+        thumbnail {
+          url
+        }
+        category {
+          id
+          name
+        }
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+
+query GetProductDetails($id: ID!) {
+  product(id: $id, channel: "default-channel") {
+    id
+    name
+    description
+    seoTitle
+    seoDescription
+    availableForPurchaseAt
+    created
+    isAvailable(address: {country: US})
+    category {
+      id
+      name
+      __typename
+    }
+    thumbnail {
+      url
+      __typename
+    }
+    __typename
+  }
+}
+
+mutation DeleteProductType($id: ID!) {
+  productDelete(id: $id) {
+    errors {
+      field
+      message
+    }
+  }
+}
