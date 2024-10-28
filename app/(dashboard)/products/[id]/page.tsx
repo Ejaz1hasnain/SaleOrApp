@@ -1,11 +1,10 @@
-// @ts-nocheck
 'use client'
 import React from "react";
 import { ProductDetails } from "./ProductDetails";
-import { useGetProductDetailsQuery } from "@/generated/graphql";
+import { Product, useGetProductDetailsQuery } from "@/generated/graphql";
 import { use } from 'react';
 
-const ProductPage = (props) => {
+const ProductPage = (props: { params: React.Usable<{ id: string; }>; }) => {
   const params = use(props?.params);
   const decodedId = decodeURIComponent(params.id);
 
@@ -17,7 +16,7 @@ const ProductPage = (props) => {
   if (error) return <div className="text-center justify-center">Error: {error.message}</div>;
 
   return data?.product && (
-    <ProductDetails productDetails={data.product} />
+    <ProductDetails productDetails={data.product as Product} />
   )
 };
 
