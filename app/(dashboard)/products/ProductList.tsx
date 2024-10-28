@@ -1,6 +1,6 @@
 'use client'
-import { DeleteProductTypeDocument, GetProductListDocument, Product } from "@/generated/graphql";
-import { useMutation, useQuery } from "@apollo/client";
+import { GetProductListDocument } from "@/generated/graphql";
+import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -10,8 +10,6 @@ const ProductList = () => {
   const { data, loading, fetchMore } = useQuery(GetProductListDocument, {
     variables: { after: null, first: 10 }
   })
-  // const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
-  // const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
 
   const fetchNext = () => {
     const endCursor = data?.products?.pageInfo?.endCursor;
@@ -96,15 +94,6 @@ const ProductList = () => {
               className="border rounded-lg cursor-pointer shadow-lg p-4 min-h-40 bg-white hover:shadow-xl transition-shadow"
               onClick={() => push(`/products/${product.id}`)}
             >
-              {/* <div className="flex w-full justify-between items-center">
-              <FaEdit className="w-6 h-6 text-gray-400 cursor-pointer" />
-              <MdDeleteForever className="w-7 h-7 text-red-600 cursor-pointer"
-                onClick={() => {
-                  setSelectedProduct(product);
-                  setConfirmDeleteModal(true)
-                }}
-              />
-            </div> */}
               <Image
                 src={product.thumbnail.url}
                 alt={product.name}
@@ -127,58 +116,10 @@ const ProductList = () => {
             </div>
           );
         })}
-        {/* {confirmDeleteModal &&
-          <ModalLayout
-            isOpen={confirmDeleteModal}
-            handleClose={() => { setConfirmDeleteModal(false) }}
-            additionalClass={"md:w-[550px] w-auto"}
-          >
-            <ConfirmDelete product={selectedProduct} handleClose={() => { setConfirmDeleteModal(false) }} />
-          </ModalLayout>
-        } */}
       </div>
     </React.Fragment>
 
   );
 };
-
-const ConfirmDelete = ({ product, handleClose }: { product?: Product, handleClose: () => void; }) => {
-  if (!product) return null;
-
-  const [deleteProduct, { loading, error }] = useMutation(DeleteProductTypeDocument, {
-    variables: { id: product?.id },
-    onCompleted: () => {
-      handleClose(); // Close the modal
-      onProductDeleteSuccess(); // Call another method on success
-    },
-    onError: (error) => {
-      console.error("Error deleting product:", error);
-    },
-  });
-
-  const onProductDeleteSuccess = () => {
-  };
-
-  return (
-    <div className="flex flex-col p-2 space-y-4 text-sm tracking-widest text-left text-black md:p-4 dark:text-white">
-      <div>Are you sure you want to delete?</div>
-      <div className="flex flex-row gap-x-2">
-        <button
-          className="border border-gray-400 bg-transparent text-black w-full p-2 rounded-md flex-1"
-          onClick={handleClose}
-        >
-          Cancel
-        </button>
-        <button
-          onClick={() => deleteProduct()}
-          className="border border-gray-400 bg-orange-400 p-2 text-black rounded-md w-full flex-1"
-          disabled={loading}
-        >
-          {loading ? "Deleting..." : "Confirm"}
-        </button>
-      </div>
-    </div>
-  );
-}
 
 export default ProductList;
