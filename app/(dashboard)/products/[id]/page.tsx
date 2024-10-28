@@ -2,7 +2,7 @@
 'use client'
 import React from "react";
 import { ProductDetails } from "./ProductDetails";
-import { Product, useGetProductDetailsQuery } from "@/generated/graphql";
+import { useGetProductDetailsQuery } from "@/generated/graphql";
 import { use } from 'react';
 
 const ProductPage = (props) => {
