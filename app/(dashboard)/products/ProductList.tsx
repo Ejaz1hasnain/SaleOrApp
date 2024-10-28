@@ -3,11 +3,8 @@ import { ModalLayout } from "@/components/ModalLayout";
 import { DeleteProductTypeDocument, GetProductListDocument, Product } from "@/generated/graphql";
 import { useMutation, useQuery } from "@apollo/client";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
-import { FaEdit } from "react-icons/fa";
-import { MdDeleteForever } from "react-icons/md";
+import React, { useState } from "react";
 
 const ProductList = () => {
   const { push } = useRouter()

@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import client from "@/lib/appoloclient";
 import Providers from "./Providers";
 
 export const metadata: Metadata = {
