@@ -33,8 +33,7 @@ export const Header = () => {
           0
         </span>
       </div>
-      <span className="text-white font-medium text-base pl-4">Cart</span>
-
+      <span className="text-white hidden lg:block font-medium text-base pl-4">Cart</span>
     </header>
   );
 };

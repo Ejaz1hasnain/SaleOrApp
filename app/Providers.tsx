@@ -9,7 +9,7 @@ const Providers = ({ children }: { children: ReactNode }) => {
   return (
     <ApolloProvider client={client}>
       <Header />
-      <div className="px-2 pt-16">{children}</div>
+      <div className="px-2 pt-24">{children}</div>
     </ApolloProvider>
   );
 };
