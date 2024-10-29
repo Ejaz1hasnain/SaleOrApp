@@ -1,15 +1,27 @@
-import { Product } from "@/generated/graphql";
+import { GetProductDetailsDocument, Product } from "@/generated/graphql";
+import { useSuspenseQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { IoMdArrowBack } from "react-icons/io";
 
-export const ProductDetails = ({ productDetails }: { productDetails: Product }) => {
-  const { back } = useRouter()
-  const { name, description, category, isAvailable, thumbnail } = productDetails;
+type ProductDetails = {
+  product: Product
+}
+
+export const ProductDetails = ({ decodedId }: { decodedId: string }) => {
+  const { data, error } = useSuspenseQuery<ProductDetails>(GetProductDetailsDocument, {
+    variables: { id: decodedId }
+  });
+  const { back } = useRouter();
+  const { name, description, category, isAvailable, thumbnail } = data?.product;
 
   // Parse the description from JSON string
-  const parsedDescription = typeof description === 'string' ? JSON?.parse(description)?.blocks[0]?.data?.text : description;
+  const parsedDescription = typeof description === 'string' ?
+    JSON?.parse(description)?.blocks[0]?.data?.text :
+    description;
+
+  if (error) return <div className="text-center justify-center">Error: {error.message}</div>;
 
   return (
     <div className="container mx-auto p-4">
