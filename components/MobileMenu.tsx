@@ -10,12 +10,6 @@ export const MobileMenu = ({ toggleMenu }: { toggleMenu: () => void }) => {
       <Link href="/" className={`block py-2 ${pathname === "/" ? "text-black underline" : "text-white"}`} onClick={toggleMenu}>
         Home
       </Link>
-      <Link href="/about" className={`block py-2 ${pathname === "/about" ? "text-black underline" : "text-white"}`} onClick={toggleMenu}>
-        About
-      </Link>
-      <Link href="/contact" className={`block py-2 ${pathname === "/contact" ? "text-black underline" : "text-white"}`} onClick={toggleMenu}>
-        Contact
-      </Link>
     </nav>
   )
 };

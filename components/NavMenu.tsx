@@ -10,12 +10,6 @@ export const NavMenu = () => {
       <Link href="/" className={`hover:text-black ${pathname === "/" ? "text-black underline" : "text-white"}`}>
         Home
       </Link>
-      <Link href="/about" className={`hover:text-black ${pathname === "/about" ? "text-black underline" : "text-white"}`}>
-        About
-      </Link>
-      <Link href="/contact" className={`hover:text-black ${pathname === "/contact" ? "text-black underline" : "text-white"}`}>
-        Contact
-      </Link>
     </nav>
   )
 };
