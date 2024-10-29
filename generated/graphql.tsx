@@ -33277,6 +33277,8 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']['output']>;
 };
 
+export type ProductBasicDetailsFragment = { __typename?: 'Product', id: string, name: string, description?: any | null, thumbnail?: { __typename?: 'Image', url: string } | null, category?: { __typename?: 'Category', id: string, name: string } | null };
+
 export type GetProductListQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -33292,7 +33294,7 @@ export type GetProductDetailsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductDetailsQuery = { __typename?: 'Query', product?: { __typename: 'Product', id: string, name: string, description?: any | null, seoTitle?: string | null, seoDescription?: string | null, availableForPurchaseAt?: any | null, created: any, isAvailable?: boolean | null, category?: { __typename: 'Category', id: string, name: string } | null, thumbnail?: { __typename: 'Image', url: string } | null } | null };
+export type GetProductDetailsQuery = { __typename?: 'Query', product?: { __typename: 'Product', seoTitle?: string | null, seoDescription?: string | null, availableForPurchaseAt?: any | null, created: any, isAvailable?: boolean | null, id: string, name: string, description?: any | null, thumbnail?: { __typename?: 'Image', url: string } | null, category?: { __typename?: 'Category', id: string, name: string } | null } | null };
 
 export type DeleteProductTypeMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -33301,7 +33303,20 @@ export type DeleteProductTypeMutationVariables = Exact<{
 
 export type DeleteProductTypeMutation = { __typename?: 'Mutation', productDelete?: { __typename?: 'ProductDelete', errors: Array<{ __typename?: 'ProductError', field?: string | null, message?: string | null }> } | null };
 
-
+export const ProductBasicDetailsFragmentDoc = gql`
+    fragment ProductBasicDetails on Product {
+  id
+  name
+  description
+  thumbnail {
+    url
+  }
+  category {
+    id
+    name
+  }
+}
+    `;
 export const GetProductListDocument = gql`
     query GetProductList($after: String, $before: String, $first: Int, $last: Int) {
   products(
@@ -33314,16 +33329,7 @@ export const GetProductListDocument = gql`
   ) {
     edges {
       node {
-        id
-        name
-        description
-        thumbnail {
-          url
-        }
-        category {
-          id
-          name
-        }
+        ...ProductBasicDetails
       }
     }
     pageInfo {
@@ -33334,7 +33340,7 @@ export const GetProductListDocument = gql`
     }
   }
 }
-    `;
+    ${ProductBasicDetailsFragmentDoc}`;
 
 /**
  * __useGetProductListQuery__
@@ -33374,27 +33380,16 @@ export type GetProductListQueryResult = Apollo.QueryResult<GetProductListQuery, 
 export const GetProductDetailsDocument = gql`
     query GetProductDetails($id: ID!) {
   product(id: $id, channel: "default-channel") {
-    id
-    name
-    description
+    ...ProductBasicDetails
     seoTitle
     seoDescription
     availableForPurchaseAt
     created
     isAvailable(address: {country: US})
-    category {
-      id
-      name
-      __typename
-    }
-    thumbnail {
-      url
-      __typename
-    }
     __typename
   }
 }
-    `;
+    ${ProductBasicDetailsFragmentDoc}`;
 
 /**
  * __useGetProductDetailsQuery__
