@@ -1,6 +1,7 @@
 'use client'
+import { Spinner } from "@/components/Spinner";
 import { GetProductListDocument } from "@/generated/graphql";
-import { useSuspenseQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -37,9 +38,11 @@ interface ProductsData {
 
 const ProductList = () => {
   const { push } = useRouter()
-  const { data, fetchMore } = useSuspenseQuery<ProductsData>(GetProductListDocument, {
+  const { data, loading, fetchMore } = useQuery<ProductsData>(GetProductListDocument, {
     variables: { after: null, first: 10 }
   })
+
+  if (loading) return <Spinner />
 
   const fetchNext = () => {
     const endCursor = data?.products?.pageInfo?.endCursor;
