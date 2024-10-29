@@ -1,30 +1,33 @@
 'use client'
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { BsCart3 } from "react-icons/bs";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MobileMenu } from "./MobileMenu";
+import { NavMenu } from "./NavMenu";
 
 export const Header = () => {
-  const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
   return (
     <header className="flex fixed tracking-widest top-0 left-0 right-0 items-center justify-between px-6 py-4 bg-[#20C997] text-white">
+
+      {/* left Section: Hamburger Icon for Mobile */}
+      <div className="md:hidden">
+        <button onClick={toggleMenu} aria-label="Toggle Menu">
+          <GiHamburgerMenu className="h-6 w-6" />
+        </button>
+      </div>
+
       {/* Left Section: Logo */}
       <div className="flex items-center">
         <h1 className="text-xl font-bold tracking-widest">SALEORAPP</h1>
       </div>
 
-      {/* Center Section: Navigation */}
-      <nav className="flex-grow w-full pr-12 hidden md:flex justify-center space-x-8">
-        <Link href="/" className={`hover:text-black ${pathname === "/" ? "text-black underline" : "text-white"}`}>
-          Home
-        </Link>
-        <Link href="/about" className={`hover:text-black ${pathname === "/about" ? "text-black underline" : "text-white"}`}>
-          About
-        </Link>
-        <Link href="/contact" className={`hover:text-black ${pathname === "/contact" ? "text-black underline" : "text-white"}`}>
-          Contact
-        </Link>
-      </nav>
+      {/* Navigation Menu */}
+      {isMenuOpen ? <MobileMenu toggleMenu={toggleMenu} /> : <NavMenu />}
 
       {/* Right Section: Cart Icon */}
       <div className="relative">
